@@ -1,17 +1,16 @@
-import { useState } from 'react'
 import './App.css'
 import Navbar from './view/components/NavBar/navBar'
+import Footer from './view/components/Footer/footer'
 import LoginPage from './view/loginPage/loginPage'
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-
-      <LoginPage />
-    </>
-  )
+return (
+  <>
+    <LoginPage />
+    <Footer />
+  </>
+)
 }
 
 export default App
