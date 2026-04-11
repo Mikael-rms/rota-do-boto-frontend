@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function loginPage() {
+function LoginPage() {
+const navigate = useNavigate();
+
 const [username, setUsername] = useState("");
 const [password, setPassword] = useState("");
 
@@ -12,13 +15,14 @@ const PASS = "1234";
 
 if (username === USER && password === PASS) {
   setError("");
-  alert("Login bem-sucedido!");
+  navigate("/home")
 }else{
   setError("Credenciais inválidas. Tente novamente.");
 }
 }
 return (
-<section className="min-h-screen w-full bg-[linear-gradient(#00000080,#0000004D),url('/background.jpg')] bg-cover bg-center flex items-center justify-center">
+<section className="min-h-screen w-full bg-[linear-gradient(#00000080,#0000004D),url('/background.jpg')] 
+bg-cover bg-center flex items-center justify-center">
   
   <div className="flex flex-col md:flex-row w-full max-w-6xl items-center justify-between px-6 gap-10">
     
@@ -41,7 +45,9 @@ return (
       onChange={(e) => setPassword(e.target.value)} 
       className="w-full text-black border border-gray-400 rounded-full px-4 py-2 outline-none mb-6"/>
 
-      <button onClick={handleLogin} className="w-full text-white bg-[rgb(21,40,47)]  font-medium py-2 rounded-lg shadow-md transition-all duration-200 hover:scale-105 hover:shadow-lg active:scale-95">
+      <button onClick={handleLogin} className="w-full text-white bg-[rgb(21,40,47)] 
+      font-medium py-2 rounded-lg shadow-md 
+      transition-all duration-200 hover:scale-105 hover:shadow-lg active:scale-95">
         Entrar
       </button>
       {error && <p className="text-center text-sm text-red-500">{error}</p>}
@@ -56,4 +62,4 @@ return (
 </section>
 );
 }
-export default loginPage;
+export default LoginPage;
