@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function LoginPage() {
 const navigate = useNavigate();
@@ -39,7 +40,7 @@ bg-cover bg-center flex items-center justify-center">
     <div className="bg-white/70 rounded-2xl shadow-2xl p-8 w-full md:w-[400px]">
       
       <input type="email" placeholder="Digite seu usuário" value={username} 
-      onChange={(e) => setUsername(e.target.value)} 
+      onChange={(e) => setUsername(e.target.value)}
       className="w-full text-black border border-gray-400 rounded-full px-4 py-2 outline-none mb-6"/>
       <input type="password" placeholder="Digite sua senha" value={password}
       onChange={(e) => setPassword(e.target.value)} 
@@ -52,9 +53,9 @@ bg-cover bg-center flex items-center justify-center">
       </button>
       {error && <p className="text-center text-sm text-red-500">{error}</p>}
 
-      <p className="text-center text-black text-sm mt-3 cursor-pointer hover:underline">
+      <Link to="/cadastro" className="block mt-4 text-center text-sm text-gray-700 hover:text-gray-900">
         CRIAR UMA CONTA
-      </p>
+      </Link>
     </div>
 
   </div>
