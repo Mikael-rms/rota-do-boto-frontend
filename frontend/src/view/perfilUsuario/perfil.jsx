@@ -58,9 +58,9 @@ function Perfil() {
             </div>
 
           <div className="flex justify-center w-full mt-6">
-            <button className="w-full sm:w-80 bg-[#61EE9D] text-black font-semibold py-3 rounded-xl shadow-md hover:brightness-95 transition-all">
+            <Link to="/manutencao" className="w-full sm:w-80 bg-[#61EE9D] text-center text-black font-semibold py-3 rounded-xl shadow-md hover:brightness-95 transition-all">
               Editar Dados
-            </button>
+            </Link>
           </div>
 
         </div>
