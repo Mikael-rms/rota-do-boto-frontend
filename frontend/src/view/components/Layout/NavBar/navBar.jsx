@@ -33,7 +33,7 @@ export default function Navbar() {
         //user logado
         <>
             <ShoppingCart className="text-black cursor-pointer" size={22} />
-            j
+            
             <Link to="/perfil" className="text-white text-sm">
               Perfil
             </Link>
@@ -54,7 +54,7 @@ export default function Navbar() {
               Entrar
             </Link>
           </>
-        )};
+        )}
       </div>
     </div>
   );

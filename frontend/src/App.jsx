@@ -6,6 +6,7 @@ import Layout from './view/components/Layout/layout.jsx'
 import LoginPage from './view/loginPage/loginPage'
 import Home from './view/Home/home.jsx'
 import CadastroForm from './view/cadastro/cadastro.jsx'
+import Perfil from './view/perfilUsuario/perfil.jsx'
 import AuthLayout from './view/components/AuthLayout/authLayout.jsx'
 
 const router = createBrowserRouter ([
@@ -16,6 +17,14 @@ const router = createBrowserRouter ([
         path: "/login",
         element: <LoginPage />,
       },
+      {
+        path: "/cadastro",
+        element: <CadastroForm />,
+      },
+      {
+        path: "/perfil",
+        element: <Perfil />,
+      }
     ],
   },
   {
@@ -24,10 +33,6 @@ const router = createBrowserRouter ([
       {
         path: "/",
         element: <Home />,
-      },
-      {
-        path: "/cadastro",
-        element: <CadastroForm />,
       },
     ],
   },
