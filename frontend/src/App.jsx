@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import Layout from './view/components/Layout/layout.jsx'
 import AuthLayout from './view/components/AuthLayout/authLayout.jsx'
+import PrivateRoute from "./routes/PrivateRoute";
 
 import LoginPage from './view/loginPage/loginPage'
 import Home from './view/Home/home.jsx'
@@ -24,10 +25,6 @@ const router = createBrowserRouter ([
         path: "/cadastro",
         element: <CadastroForm />,
       },
-      {
-        path: "/perfil",
-        element: <Perfil />,
-      }
     ],
   },
   {
@@ -37,6 +34,14 @@ const router = createBrowserRouter ([
         path: "/",
         element: <Home />,
       },
+      {
+        path: "/perfil",
+        element: (
+          <PrivateRoute>
+            <Perfil />
+          </PrivateRoute>
+        ),
+      }
     ],
   },
  {
