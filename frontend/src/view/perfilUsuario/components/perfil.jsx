@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-import { auth } from "../../firebaseConfig";
+import { auth } from "../../../firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 import { useEffect, useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../firebaseConfig";
+import { db } from "../../../firebaseConfig";
 
 function Perfil() {
   const { user } = useAuth();
@@ -98,6 +98,7 @@ function Perfil() {
           </div>
 
         </div>
+
       </div>
     </section>
   );
