@@ -77,4 +77,4 @@ return (
     
 )
 
-} export default Resultados;
+} export default Resultados
