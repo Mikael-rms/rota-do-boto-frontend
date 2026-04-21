@@ -10,6 +10,7 @@ import Home from './view/Home/home.jsx'
 import CadastroForm from './view/cadastro/cadastro.jsx'
 import Perfil from './view/perfilUsuario/components/perfil.jsx'
 import Pedidos from './view/perfilUsuario/components/pedidos.jsx'
+import Resultados from './view/resultados/resultados.jsx'
 import Manutencao from './view/manutencao/manutencao.jsx'
 
 
@@ -43,6 +44,10 @@ const router = createBrowserRouter ([
             <Pedidos />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/resultados",
+        element: <Resultados />,
       },
     ],
   },
