@@ -11,6 +11,7 @@ import CadastroForm from './view/cadastro/cadastro.jsx'
 import Perfil from './view/perfilUsuario/components/perfil.jsx'
 import Pedidos from './view/perfilUsuario/components/pedidos.jsx'
 import Resultados from './view/resultados/resultados.jsx'
+import Pedido from './view/pedido/pedido.jsx'
 import Manutencao from './view/manutencao/manutencao.jsx'
 
 
@@ -48,6 +49,10 @@ const router = createBrowserRouter ([
       {
         path: "/resultados",
         element: <Resultados />,
+      },
+      {
+        path: "/pedido",
+        element: <Pedido />,
       },
     ],
   },
