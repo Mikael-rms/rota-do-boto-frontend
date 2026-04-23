@@ -1,8 +1,12 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 
 import { useLocation } from "react-router-dom";
+
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 
 function Pedido() {
   const location = useLocation();
@@ -17,7 +21,29 @@ function Pedido() {
   const { addToCart } = useCart();
 
   const [selectedSeats, setSelectedSeats] = useState([]);
-  const [occupiedSeats] = useState([2, 7, 12, 13, 20]);
+  const [occupiedSeats, setOccupiedSeats] = useState([]);
+
+  useEffect(() => {
+    const fetchSeats = async () => {
+      try {
+        const ref = doc(db, "trips", tripId);
+        const snap = await getDoc(ref);
+
+        if (snap.exists()) {
+          const data = snap.data();
+          setOccupiedSeats(data.occupiedSeats || []);
+        } else {
+          console.log("Trip não encontrada");
+        }
+      } catch (error) {
+        console.error("Erro ao buscar assentos:", error);
+      }
+  };
+
+  if (tripId) {
+    fetchSeats();
+  }
+}, [tripId]);
 
   const rows = 10; // 10 linhas
 
