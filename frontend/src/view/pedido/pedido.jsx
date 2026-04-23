@@ -53,7 +53,7 @@ function Pedido() {
         </div>
 
         {/* corredor */}
-        <div className="w-10 h-10"></div>
+        <div className="w-2 h-10"></div>
 
         {/* lado direito */}
         <div className="flex gap-2">
@@ -87,7 +87,7 @@ function Pedido() {
     <section className="w-full min-h-screen bg-gray-100 py-10 px-6">
       <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-10">
 
-        {/* 🪑 ASSENTOS */}
+        {/*ASSENTOS */}
         <div className="flex flex-col items-center">
 
           <h2 className="text-xl font-bold mb-6">
@@ -95,10 +95,10 @@ function Pedido() {
           </h2>
 
           {/* grid */}
-          <div className="flex flex-col gap-3 bg-white/55 p-6 rounded-2xl shadow">
+          <div className="flex flex-col gap-3 p-6">
             {renderSeats()}
           </div>
-
+          
           {/* legenda */}
           <div className="flex gap-6 mt-6 text-sm">
 
@@ -120,7 +120,7 @@ function Pedido() {
           </div>
         </div>
 
-        {/* 📦 RESUMO */}
+        {/* RESUMO */}
         <div className="bg-white rounded-3xl shadow p-6 w-full max-w-md">
 
           <h2 className="text-2xl font-bold mb-6">
