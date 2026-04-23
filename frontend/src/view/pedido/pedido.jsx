@@ -2,7 +2,16 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 
+import { useLocation } from "react-router-dom";
+
 function Pedido() {
+  const location = useLocation();
+  const viagem = location.state;
+
+  const tripId = viagem?.tripId;
+  const origem = viagem?.origem;
+  const destino = viagem?.destino;
+  const price = viagem?.preco || 120;
   const navigate = useNavigate();
 
   const { addToCart } = useCart();
@@ -11,7 +20,6 @@ function Pedido() {
   const [occupiedSeats] = useState([2, 7, 12, 13, 20]);
 
   const rows = 10; // 10 linhas
-  const price = 120;
 
   const handleSeatClick = (seatNumber) => {
     if (occupiedSeats.includes(seatNumber)) return;
@@ -78,7 +86,7 @@ function Pedido() {
     const handleContinue = () => {
         if (selectedSeats.length === 0) return;
 
-        addToCart("trip1", selectedSeats, price);
+        addToCart(tripId, selectedSeats, price);
 
         navigate("/carrinho");
     };
@@ -130,14 +138,14 @@ function Pedido() {
           <div className="flex justify-between mb-4">
             <div>
               <p className="text-xs text-gray-500">ORIGEM</p>
-              <p className="text-green-700 font-semibold">Manaus</p>
+              <p className="text-green-700 font-semibold">{origem}</p>
             </div>
 
             <div>→</div>
 
             <div>
               <p className="text-xs text-gray-500">DESTINO</p>
-              <p className="text-green-700 font-semibold">Maués</p>
+              <p className="text-green-700 font-semibold">{destino}</p> 
             </div>
           </div>
 
