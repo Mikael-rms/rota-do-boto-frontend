@@ -1,3 +1,7 @@
+import { db } from "../../firebaseConfig";
+import { collection, addDoc } from "firebase/firestore";
+import { useAuth } from "../../context/AuthContext";
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
@@ -78,7 +82,7 @@ function Pedido() {
     const handleContinue = () => {
         if (selectedSeats.length === 0) return;
 
-        addToCart("trip1", selectedSeats, price);
+        addToCart("lancha123", selectedSeats, price);
 
         navigate("/carrinho");
     };
