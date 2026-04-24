@@ -1,6 +1,6 @@
 export default function CardViagem({ imagem, titulo, descricao, preco }) {
+  
   return (
-    
     <div className="relative overflow-hidden w-full h-full group shadow-md">
       <img 
         src={imagem} 

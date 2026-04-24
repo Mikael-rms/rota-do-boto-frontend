@@ -24,7 +24,7 @@ function Home() {
     {/* DESTINOS EM ALTA */}
     <div className="p-8 min-h-screen bg-transparent rounded-lg">
       <h1 className="text-3xl font-bold mb-4">Destinos em alta</h1>
-      <div className="grid grid-cols-3 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
         {listaCidades.map((cidade) => {
           return (
           <CardEmAlta 
@@ -40,8 +40,8 @@ function Home() {
     <section className="p-8 min-h-screen mt-1">
       <h2 className="text-white text-right text-3xl -mt-4 mb-6 font-bold">Viagens mais procuradas</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 grid-rows-2 gap-5 h-[400px] bg-transparent">
-        <div className="md:row-span-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-6 h-[400px] bg-transparent">
+        <div className="hidden lg:block lg:row-span-2">
           <CardViagem 
             titulo="Manaus para Tefé"
             descricao="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
