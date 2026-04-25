@@ -4,7 +4,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge\&logo=tailwind-css\&logoColor=white)](https://tailwindcss.com/docs/installation)
 [![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge\&logo=firebase\&logoColor=black)](https://firebase.google.com/docs)
 
-Sistema web para busca, seleção e compra de passagens fluviais (lanchas), com controle de assentos e arquitetura full stack moderna.
+Este é o frontend do projeto Rota do Boto, desenvolvido com React.js e integrado ao Firebase (Firestore).
 
 ---
 
