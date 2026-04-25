@@ -10,7 +10,6 @@ function Carrinho() {
   
   const { cart, clearCart } = useCart();
 
-<<<<<<< HEAD
   fetch("http://localhost:5000/buy", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -20,54 +19,6 @@ function Carrinho() {
       total: cart.total
     })
   });
-=======
-  const handleFinishPurchase = async () => {
-  if (!user || cart.seats.length === 0) return;
-
-  try {
-    const handleFinishPurchase = async () => {
-  if (!user || cart.seats.length === 0) return;
-
-  try {
-    const response = await fetch("http://127.0.0.1:8000/buy", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: user.uid,
-        tripId: cart.tripId,
-        seats: cart.seats,
-        total: cart.total,
-        origem: "Manaus",
-        destino: "Maués"
-      }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok || data.error) {
-      alert(data.error || "Erro na compra");
-      return;
-    }
-
-    clearCart();
-    navigate("/perfil");
-
-  } catch (error) {
-    console.error("Erro ao conectar com backend:", error);
-  }
-};
-
-    clearCart();
-
-    navigate("/perfil");
-
-  } catch (error) {
-    console.error("Erro ao finalizar compra:", error);
-  }
-};
->>>>>>> main
 
   return (
     <section className="w-full min-h-screen bg-gray-100 py-6 md:py-10">
