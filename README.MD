@@ -57,6 +57,10 @@ Firebase (Firestore + Auth)
 
 ---
 
+Link para o repositório Backend do Rota do Boto: https://github.com/Mikael-rms/rota-do-boto-backend.git
+
+---
+
 ### 🔄 Fluxo da Aplicação
 
 ```
