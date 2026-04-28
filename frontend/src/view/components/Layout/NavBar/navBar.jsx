@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
+import { useState } from "react";
+
 import { useAuth } from "../../../../context/AuthContext.jsx";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../../firebaseConfig.js";
 
-import { useState } from "react";
-import MenuLateral from "./menuLateral.jsx";
-import Hamburger from "./hamburger.jsx";
+import MenuLateral from "../menuLateral/menuLateral.jsx";
+import Hamburger from "../hamburger/hamburger.jsx";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -17,7 +18,6 @@ export default function Navbar() {
   } 
 
   return (
-    <>
     <div className="w-full bg-[rgb(21,40,47)] px-6 py-4 flex items-center justify-between">
       
       <div className="flex items-center gap-2 px-4">
@@ -63,14 +63,10 @@ export default function Navbar() {
         )}
 
       </div>
-
-            <div className="md:hidden">
+        <div className="md:hidden">
           <Hamburger open={open} setOpen={setOpen} />
-      </div>
-
-          
+        </div>
+          <MenuLateral open={open} setOpen={setOpen} handleSignOut={handleSignOut} />
     </div>
-<MenuLateral open={open} setOpen={setOpen} handleSignOut={handleSignOut} />
-    </>
   );
 }

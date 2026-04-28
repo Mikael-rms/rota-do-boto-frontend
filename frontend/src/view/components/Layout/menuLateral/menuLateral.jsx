@@ -1,14 +1,14 @@
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
+
 import { ShoppingCart } from "lucide-react";
 import { useAuth } from "../../../../context/AuthContext.jsx";
 
-export default function MobileMenu({ open, setOpen, handleSignOut }) {
+function MobileMenu({ open, setOpen, handleSignOut }) {
   const { user } = useAuth();
 
   return createPortal(
     <>
-      {/* Overlay */}
       {open && (
         <div
           onClick={() => setOpen(false)}
@@ -23,7 +23,6 @@ export default function MobileMenu({ open, setOpen, handleSignOut }) {
         }`}
       >
           <div className="flex flex-col p-6 space-y-6">
-
           <h2 className="text-lg font-semibold">Menu</h2>
 
           {user ? (
@@ -32,8 +31,7 @@ export default function MobileMenu({ open, setOpen, handleSignOut }) {
               <Link 
                 to="/perfil" 
                 onClick={() => setOpen(false)}
-                className="hover:text-white/70 transition"
-              >
+                className="hover:text-white/70 transition">
                 Perfil
               </Link>
 
@@ -50,21 +48,21 @@ export default function MobileMenu({ open, setOpen, handleSignOut }) {
                 handleSignOut();
                 setOpen(false);
                 }}
-                className="bg-white text-black px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition"
-            >
+                className="bg-white text-black px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition">
                 Sair
             </button>
 
             </>
-          ) : (
-            <>
-              <Link to="/cadastro" className="text-center">Criar conta</Link>
-              <Link to="/login" className="bg-white text-center text-black px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition">Entrar</Link>
-            </>
-          )}
-        </div>
+            ) : (
+              <>
+                <Link to="/cadastro" className="text-center">Criar conta</Link>
+                <Link to="/login" className="bg-white text-center text-black px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition">Entrar</Link>
+              </>
+            )}
       </div>
-    </>,
+    </div>
+  </>,
     document.body
   );
 }
+export default MobileMenu;

@@ -1,4 +1,4 @@
-export default function Hamburger({ open, setOpen }) {
+function Hamburger({ open, setOpen }) {
   return (
     <button
       onClick={() => setOpen(!open)}
@@ -22,3 +22,4 @@ export default function Hamburger({ open, setOpen }) {
     </button>
   );
 }
+export default Hamburger;
