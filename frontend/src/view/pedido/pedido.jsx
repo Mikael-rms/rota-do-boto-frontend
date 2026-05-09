@@ -13,8 +13,6 @@ function Pedido() {
   const viagem = location.state;
 
   const tripId = viagem?.tripId;
-  const origem = viagem?.origem;
-  const destino = viagem?.destino;
   const price = viagem?.preco || 120;
   const navigate = useNavigate();
 
@@ -117,7 +115,6 @@ function Pedido() {
 
     const handleContinue = () => {
         if (selectedSeats.length === 0) return;
-
         addToCart(tripId, selectedSeats, price);
         
         navigate("/carrinho");
@@ -161,55 +158,112 @@ function Pedido() {
         </div>
 
         {/* RESUMO */}
-        <div className="bg-white rounded-3xl shadow p-6 mt-6 w-full max-w-md">
-
+        <div className="bg-[#f3f3f3] rounded-[30px] shadow-md p-6 mt-6 w-full max-w-md border border-gray-300">
           <h2 className="text-2xl font-bold mb-6">
             Resumo do pedido
           </h2>
+          <hr className="border-gray-400 mb-6" />
+          {/* Origem / Destino / Tempo */}
+          <div className="flex justify-between items-start mb-8">
 
-          <div className="flex justify-between mb-4">
             <div>
-              <p className="text-xs text-gray-500">ORIGEM</p>
-              <p className="text-green-700 font-semibold">{origem}</p>
+              <p className="text-gray-600 text-xs">ORIGEM</p>
+              <p className="text-green-700 text-xl font-semibold">
+                Manaus
+              </p>
             </div>
 
-            <div>→</div>
+            <div className="text-xl mt-2">→</div>
 
             <div>
-              <p className="text-xs text-gray-500">DESTINO</p>
-              <p className="text-green-700 font-semibold">{destino}</p> 
+              <p className="text-gray-600 text-xs">DESTINO</p>
+              <p className="text-green-700 text-xl font-semibold">
+                Parintins
+              </p>
+            </div>
+
+            <div className="text-right">
+              <p className="text-gray-600 text-xs">
+                TEMPO DE VIAGEM
+              </p>
+
+              <p className="text-green-700 text-xl font-semibold">
+                00H
+              </p>
             </div>
           </div>
 
-          <hr className="my-4" />
+          {/* Informações da viagem */}
+          <div className="flex justify-between items-start mb-6">
 
-          <div className="flex justify-between mb-2">
+          <div className="flex gap-3">
+
+            <div>
+              <p className="text-gray-600 text-xs mb-1">
+                PARTIDA
+              </p>
+
+              <p className="text-green-700 text-lg font-semibold">
+                00/00/0000 - 00H
+              </p>
+            </div>
+
+            <div>
+              <p className="text-gray-600 text-xs mb-1">
+                EMBARCAÇÃO
+              </p>
+
+              <p className="text-green-700 text-lg font-semibold">
+                xxxxxxx - Lancha
+              </p>
+            </div>
+
+          </div>
+
+            <div className="flex items-center gap-1 text-gray-500 text-lg mb-1">
+              ☆ 0,0 (0)
+            </div>
+          </div>
+
+          <hr className="border-gray-400 mb-6" />
+
+          {/* Quantidade */}
+          <div className="flex justify-between mb-2 text-xl">
             <span>Passagens</span>
             <span>{selectedSeats.length}</span>
           </div>
 
-          <div className="flex justify-between mb-2">
-            <span>Assentos</span>
+          {/* Assentos */}
+          <div className="flex justify-between mb-6 text-xl">
+            <span>Assento</span>
+
             <span>
               {selectedSeats.length > 0
                 ? selectedSeats.join(", ")
-                : "-"}
+                : "0"}
             </span>
           </div>
 
-          <div className="flex justify-between font-semibold mb-4">
-            <span>Total</span>
-            <span>
+          {/* Subtotal */}
+          <div className="flex justify-between items-center mb-8">
+            <span className="text-xl font-medium">
+              Subtotal
+            </span>
+
+            <span className="text-xl text-gray-700">
               R$ {(selectedSeats.length * price).toFixed(2)}
             </span>
           </div>
 
-          <button
-            onClick={handleContinue}
-            disabled={selectedSeats.length === 0}
-            className="w-full bg-green-400 py-3 rounded-xl font-semibold hover:brightness-95 disabled:bg-gray-300">
-            Continuar compra
-          </button>
+          {/* Botão */}
+          <div className="flex justify-center">
+            <button
+              onClick={handleContinue}
+              disabled={selectedSeats.length === 0}
+              className="bg-green-400 hover:brightness-95 transition px-6 py-2 rounded-xl text-sm font-medium shadow-md disabled:bg-gray-300">
+              Continuar compra
+            </button>
+          </div>
         </div>
 
       </div>

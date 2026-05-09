@@ -15,6 +15,7 @@ const handleBuy = async () => {
   if (loading) return;
   if (!user) {
     alert("Usuário não autenticado");
+    navigate("/login");
     return;
   }
 
