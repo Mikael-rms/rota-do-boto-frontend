@@ -1,8 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useRef,
-} from "react";
+import { createContext, useContext, useRef, } from "react";
 
 const ScrollSearchContext = createContext();
 
