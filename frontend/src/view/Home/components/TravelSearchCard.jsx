@@ -14,6 +14,14 @@ const TravelCard = () => {
   const idaRef = useRef(null);
   const voltaRef = useRef(null);
 
+  // Validação: Impede volta antes da ida
+  useEffect(() => {
+    if (dataIda && dataVolta && dataVolta < dataIda) {
+      alert("A data de volta não pode ser anterior à data de ida.");
+      setDataVolta('');
+    }
+  }, [dataIda, dataVolta]);
+
   // Validação: Permite apenas viagens em maio
   useEffect(() => {
     if (dataIda) {
