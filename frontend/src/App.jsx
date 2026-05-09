@@ -38,7 +38,7 @@ const router = createBrowserRouter ([
         path: "/",
         element: 
         <ScrollSearchProvider>
-          <Home />,
+          <Home />
         </ScrollSearchProvider>
       },
       {
@@ -47,7 +47,7 @@ const router = createBrowserRouter ([
           <PrivateRoute>
             <Perfil />
           </PrivateRoute>
-        ),
+        )
       },
       {
         path: "/resultados",
