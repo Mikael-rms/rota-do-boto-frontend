@@ -1,22 +1,36 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { MdNoMeals } from "react-icons/md";
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
+  const [cart, setCart] = useState(() => {
+    const savedCart = localStorage.getItem("cart");
 
-  const [cart, setCart] = useState({
-    tripId: "",
-    date: "",
-    seats: [],
-    price: 0,
-    total: 0,
-    orderId: "",
-    nome: "",
-    origem: "",
-    destino: "",
-    expiresAt: null,
+    if (savedCart) {
+      return JSON.parse(savedCart);
+    }
+
+    return {
+      tripId: "",
+      date: "",
+      seats: [],
+      price: 0,
+      total: 0,
+      orderId: "",
+      nome: "",
+      origem: "",
+      destino: "",
+      expiresAt: null,
+    };
   });
+
+  useEffect(() => {
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(cart)
+    );
+  }, [cart]);
 
   const addToCart = (data) => {
     setCart({
@@ -34,6 +48,8 @@ export function CartProvider({ children }) {
   };
 
   const clearCart = () => {
+    localStorage.removeItem("cart");
+
     setCart({
       tripId: "",
       date: "",
@@ -41,6 +57,7 @@ export function CartProvider({ children }) {
       price: 0,
       total: 0,
       orderId: "",
+      nome: "",
       origem: "",
       destino: "",
       expiresAt: null,
