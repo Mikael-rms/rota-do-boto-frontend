@@ -31,37 +31,60 @@ function Pedido() {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [occupiedSeats, setOccupiedSeats] = useState([]);
 
-  useEffect(() => {
-    const fetchSeats = async () => {
-      try {
-        const ref = doc(db, "trips", tripId, viagem.date, "data");
-        const snap = await getDoc(ref);
+useEffect(() => {
+  const fetchSeats = async () => {
+    try {
+      const ref = doc( db, "trips", tripId, viagem.date, "data" );
+      
+      const snap = await getDoc(ref);
+      if (snap.exists()) {
+        const data = snap.data();
+        const seats = data.seats || {};
+        const occupied = Object.keys(seats)
+          .filter(
+            (key) =>
+              seats[key] === "reserved" ||
+              seats[key] === "paid"
+          )
+          .map((key) =>
+            Number(key.replace("S", ""))
+          );
 
-        if (snap.exists()) {
-          const data = snap.data();
-          const seats = data.seats || {};
+        setOccupiedSeats(occupied);
 
-          const occupied = Object.keys(seats)
-            .filter(
-              (key) =>
-                seats[key] === "reserved" ||
-                seats[key] === "paid"
-            )
-            .map((key) => Number(key.replace("S", "")));
+        // remove assentos ocupados
+        setSelectedSeats((prev) =>
+          prev.filter(
+            (seat) => !occupied.includes(seat)
+          )
+        );
 
-          setOccupiedSeats(occupied);
-        } else {
-          console.log("Trip não encontrada");
-        }
-      } catch (error) {
-        console.error("Erro ao buscar assentos:", error);
+      } else {
+        console.log("Trip não encontrada");
       }
+
+    } catch (error) {
+      console.error(
+        "Erro ao buscar assentos:",
+        error
+      );
+    }
   };
 
   if (tripId) {
+    // busca inicial
     fetchSeats();
+
+    // polling -> deixa a pagina mais responsiva, atualizando os assentos a cada 3 segundos 
+    const interval = setInterval(() => {
+      fetchSeats();
+    }, 3000);
+
+    // cleanup
+    return () => clearInterval(interval);
   }
-}, [tripId]);
+
+}, [tripId, viagem.date]);
 
   const rows = 10; // 10 linhas
 
