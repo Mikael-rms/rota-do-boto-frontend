@@ -30,6 +30,8 @@ function Pedido() {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [occupiedSeats, setOccupiedSeats] = useState([]);
 
+  const [loading, setLoading] = useState(false);
+
 useEffect(() => {
   const fetchSeats = async () => {
     try {
@@ -150,10 +152,12 @@ useEffect(() => {
   };
 
 const handleContinue = async () => {
-  if (selectedSeats.length === 0) return;
+  if (selectedSeats.length === 0 || loading) return;
+
+  setLoading(true);
 
   try {
-    const response = await fetch("https://rota-do-boto-backend.onrender.com/reserve", {
+    const response = await fetch("http://127.0.0.1:8000/reserve", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -162,9 +166,7 @@ const handleContinue = async () => {
         trip_id: tripId,
         date: viagem.date,
         user_id: user.uid,
-
         seats: selectedSeats.map((s) => `S${s}`),
-
         price,
         origem,
         destino,
@@ -176,6 +178,7 @@ const handleContinue = async () => {
 
     if (data.error) {
       alert(data.error);
+      setLoading(false);
       return;
     }
 
@@ -186,7 +189,10 @@ const handleContinue = async () => {
       imagem,
       origem,
       destino,
-      expires_at: data.expires_at,
+      date: viagem.date,
+      seats: selectedSeats.map((s) => `S${s}`),
+      expiresAt: Number(data.expires_at),
+      price,
     });
 
     navigate("/carrinho");
@@ -194,6 +200,8 @@ const handleContinue = async () => {
   } catch (error) {
     console.error(error);
     alert("Erro ao reservar assentos");
+  } finally {
+    setLoading(false);
   }
 };
 

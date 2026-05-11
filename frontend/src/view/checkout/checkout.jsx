@@ -24,7 +24,7 @@ function Checkout() {
       await new Promise((resolve) => setTimeout(resolve, 2500));
 
       const response = await fetch(
-        "https://rota-do-boto-backend.onrender.com/confirm",
+        "http://127.0.0.1:8000/confirm",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

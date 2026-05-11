@@ -1,36 +1,46 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { MdNoMeals } from "react-icons/md";
 
 const CartContext = createContext();
+
+const defaultCart = {
+  tripId: "",
+  date: "",
+  seats: [],
+  price: 0,
+  total: 0,
+  orderId: "",
+  nome: "",
+  origem: "",
+  destino: "",
+  expiresAt: null,
+  duration: 0,
+};
+
+const isExpired = (expiresAt) => {
+  return !expiresAt || Number(expiresAt) < Date.now();
+};
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState(() => {
     const savedCart = localStorage.getItem("cart");
 
-    if (savedCart) {
-      return JSON.parse(savedCart);
+    if (!savedCart) return defaultCart;
+
+    const parsed = JSON.parse(savedCart);
+
+    if (isExpired(parsed.expiresAt)) {
+      localStorage.removeItem("cart");
+      return defaultCart;
     }
 
     return {
-      tripId: "",
-      date: "",
-      seats: [],
-      price: 0,
-      total: 0,
-      orderId: "",
-      nome: "",
-      origem: "",
-      destino: "",
-      expiresAt: null,
-      duration: 0,
+      ...parsed,
+      expiresAt: Number(parsed.expiresAt),
     };
   });
 
   useEffect(() => {
-    localStorage.setItem(
-      "cart",
-      JSON.stringify(cart)
-    );
+    localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
   const addToCart = (data) => {
@@ -44,37 +54,18 @@ export function CartProvider({ children }) {
       nome: data.nome,
       origem: data.origem,
       destino: data.destino,
-      expiresAt: data.expiresAt,
+      expiresAt: Number(data.expiresAt), // 🔥 FIX
       duration: data.duration,
     });
   };
 
   const clearCart = () => {
     localStorage.removeItem("cart");
-
-    setCart({
-      tripId: "",
-      date: "",
-      seats: [],
-      price: 0,
-      total: 0,
-      orderId: "",
-      nome: "",
-      origem: "",
-      destino: "",
-      expiresAt: null,
-      duration: 0,
-    });
+    setCart(defaultCart);
   };
 
   return (
-    <CartContext.Provider
-      value={{
-        cart,
-        addToCart,
-        clearCart,
-      }}
-    >
+    <CartContext.Provider value={{ cart, addToCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );
