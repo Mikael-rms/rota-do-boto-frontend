@@ -154,7 +154,7 @@ const handleContinue = async () => {
   if (selectedSeats.length === 0) return;
 
   try {
-    const response = await fetch("http://127.0.0.1:8000/reserve", {
+    const response = await fetch("https://rota-do-boto-backend.onrender.com/reserve", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

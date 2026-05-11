@@ -64,35 +64,35 @@ function Carrinho() {
   };
 
   const [timeLeft, setTimeLeft] = useState(0);
-  const minutes = Math.floor(timeLeft / 60);
-  const seconds = timeLeft % 60;
+
+  const minutes = Math.floor(timeLeft / 60000);
+  const seconds = Math.floor((timeLeft % 60000) / 1000);
 
   useEffect(() => {
-  if (!cart.expiresAt) return;
+    if (!cart.expiresAt) return;
 
-  const interval = setInterval(() => {
-    const now = Date.now() / 1000;
+    const interval = setInterval(() => {
+      const now = Date.now();
 
-    const remaining = Math.max(
-      0,
-      Math.floor(cart.expiresAt - now)
-    );
+      const remaining = Math.max(
+        0,
+        Math.floor(cart.expiresAt - now)
+      );
 
-    setTimeLeft(remaining);
+      setTimeLeft(remaining);
 
-    if (remaining <= 0) {
-      clearInterval(interval);
+      if (remaining <= 0) {
+        clearInterval(interval);
 
-      alert("Sua reserva expirou");
+        alert("Sua reserva expirou");
 
-      clearCart();
+        clearCart();
+        navigate("/");
+      }
+    }, 1000);
 
-      navigate("/");
-    }
-  }, 1000);
-
-  return () => clearInterval(interval);
-}, [cart.expiresAt]);
+    return () => clearInterval(interval);
+  }, [cart.expiresAt]);
 
   return (
     <section className="w-full min-h-screen bg-gray-100 py-6 md:py-10">
