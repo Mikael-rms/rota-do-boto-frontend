@@ -344,9 +344,9 @@ const handleContinue = async () => {
           <div className="flex justify-center">
             <button
               onClick={handleContinue}
-              disabled={selectedSeats.length === 0}
+              disabled={selectedSeats.length === 0 || loading}
               className="bg-sky-700 hover:brightness-95 transition px-6 py-2 rounded-xl text-white text-sm font-medium shadow-md disabled:bg-gray-300">
-              Continuar compra
+              {loading ? "Reservando..." : "Continuar compra"}
             </button>
           </div>
         </div>
