@@ -189,13 +189,7 @@ const handleContinue = async () => {
       imagem,
       origem,
       destino,
-      tempo,
-      dataPartida,
-      date: viagem.date,
-      seats: selectedSeats,
-      passageiros: viagem.passageiros,
-      price,
-      duration: data.duration,
+      expires_at: data.expires_at,
     });
 
     navigate("/carrinho");

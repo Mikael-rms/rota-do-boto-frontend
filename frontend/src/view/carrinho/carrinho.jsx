@@ -62,36 +62,29 @@ function Carrinho() {
       setLoading(false);
     }
   };
-  const [timeLeft, setTimeLeft] = useState(
-        (cart.duration || 0) * 1000
-      );
-  const minutes = Math.floor(timeLeft / 60000);
-  const seconds = Math.floor((timeLeft % 60000) / 1000);
+
+  const [timeLeft, setTimeLeft] = useState(0);
 
 useEffect(() => {
-  if (timeLeft <= 0) return;
+  if (!cart.expiresAt) return;
 
-  const interval = setInterval(() => {
-    setTimeLeft((prev) => {
-      if (prev <= 1000) {
-        clearInterval(interval);
+  const update = () => {
+    const diff = Math.max(cart.expiresAt - Date.now(), 0);
+    setTimeLeft(diff);
 
-        alert("Sua reserva expirou");
+    if (diff <= 0) {
+      alert("Sua reserva expirou");
+      clearCart();
+      navigate("/");
+    }
+  };
 
-        clearCart();
+  update(); // executa na hora
 
-        navigate("/");
-
-        return 0;
-      }
-
-      return prev - 1000;
-    });
-  }, 1000);
+  const interval = setInterval(update, 1000);
 
   return () => clearInterval(interval);
-
-}, []);
+}, [cart.expiresAt]);
 
   return (
     <section className="w-full min-h-screen bg-gray-100 py-6 md:py-10">
