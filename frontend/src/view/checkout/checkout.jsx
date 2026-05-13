@@ -4,6 +4,8 @@ import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 import { QRCodeCanvas } from "qrcode.react";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
 function Checkout() {
   const { cart, clearCart } = useCart();
   const { user } = useAuth();
@@ -23,18 +25,17 @@ function Checkout() {
     try {
       await new Promise((resolve) => setTimeout(resolve, 2500));
 
-      const response = await fetch(
-        "http://127.0.0.1:8000/confirm",
-        {
+      const response = await fetch(`${API_URL}/confirm`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json" 
+          },
           body: JSON.stringify({
             order_id: cart.orderId,
             trip_id: cart.tripId,
             date: cart.date,
           }),
-        }
-      );
+        });
 
       const data = await response.json();
 

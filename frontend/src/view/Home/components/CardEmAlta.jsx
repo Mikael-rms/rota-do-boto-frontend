@@ -1,26 +1,9 @@
-import { useNavigate } from "react-router-dom";
-<<<<<<< HEAD
-import { defaultSearchState } from "../defaultSearchState";
-=======
 import { useScrollSearch } from '../../../context/ScrollSearchContext.jsx';
->>>>>>> fluxo-compra
 
 function CardEmAlta({ imagem, nome }) {
   const { scrollToSearch } = useScrollSearch();
-  const navigate = useNavigate();
-<<<<<<< HEAD
-  const handleClick = () => {
-    navigate("/resultados", { state: defaultSearchState });
-  }
-  return (
-    <div className={`relative overflow-hidden h-44 sm:h-52 md:h-56 lg:h-48 xl:h-50 w-full group shadow-lg border border-white/10 bg-transparent
-    ${id === 2 ? "cursor-pointer" : "cursor-default"}`} 
-    onClick={(e) => {e.stopPropagation();
-      if (id === 2) handleClick();}}>
-=======
   return (
     <div onClick={scrollToSearch} className="relative overflow-hidden h-44 sm:h-52 md:h-56 lg:h-48 xl:h-50 w-full group shadow-lg border border-white/10 bg-transparent">
->>>>>>> fluxo-compra
       
       <img src={imagem} alt={nome} className="object-cover w-full h-full transition-transform duration-700 ease-out 
       group-hover:scale-105"/>

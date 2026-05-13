@@ -1,15 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-<<<<<<< HEAD
 import { Calendar, ChevronDown, MapPin, Repeat, Search, Users } from 'lucide-react';
-=======
-import { MapPin, Repeat, Calendar, Users, Search, ChevronDown } from 'lucide-react';
 import { useScrollSearch } from '../../../context/ScrollSearchContext.jsx';
->>>>>>> fluxo-compra
 
 const TravelCard = () => {
   const { searchRef } = useScrollSearch();
-
   const [origem, setOrigem] = useState('');
   const [destino, setDestino] = useState('');
   const [dataIda, setDataIda] = useState('');
@@ -23,37 +18,6 @@ const TravelCard = () => {
   const voltaRef = useRef(null);
   const navigate = useNavigate();
 
-<<<<<<< HEAD
-=======
-  // Validação: Impede volta antes da ida
-  useEffect(() => {
-    if (dataIda && dataVolta && dataVolta < dataIda) {
-      alert("A data de volta não pode ser anterior à data de ida.");
-      setDataVolta('');
-    }
-  }, [dataIda, dataVolta]);
-  
-  useEffect(() => {
-    if (dataIda) {
-      const mesIda = new Date(dataIda).getMonth() + 1;
-
-      if (mesIda !== 5) {
-        alert("As viagens estão disponíveis apenas no mês de maio.");
-        setDataIda('');
-      }
-    }
-
-    if (dataVolta) {
-      const mesVolta = new Date(dataVolta).getMonth() + 1;
-
-      if (mesVolta !== 5) {
-        alert("As viagens estão disponíveis apenas no mês de maio.");
-        setDataVolta('');
-      }
-    }
-  }, [dataIda, dataVolta]);
-
->>>>>>> fluxo-compra
   const handleInvert = () => {
     setOrigem(destino);
     setDestino(origem);
@@ -83,22 +47,11 @@ const TravelCard = () => {
     setDataVolta(value);
   };
 
-<<<<<<< HEAD
   const handleSearch = () => {
     if (!origem || !destino || !dataIda) {
       alert("Preencha origem, destino e data");
       return;
     }
-=======
-  // valida rota disponível
-  if (
-    origemFormatada !== "manaus" ||
-    destinoFormatado !== "parintins"
-  ) {
-    alert(
-      "No momento só existem viagens disponíveis de Manaus para Parintins."
-    );
->>>>>>> fluxo-compra
 
     const origemFormatada = origem.trim().toLowerCase();
     const destinoFormatado = destino.trim().toLowerCase();
@@ -128,20 +81,12 @@ const TravelCard = () => {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="w-full max-w-4xl mx-auto font-sans px-4">
-=======
-    /* AJUSTE: Aumentado para max-w-4xl para um tamanho intermediário ideal */
     <div ref={searchRef} className="w-full max-w-4xl mx-auto font-sans px-4">
-      
-      {/* SELETOR DE TIPO CENTRALIZADO */}
->>>>>>> fluxo-compra
       <div className="flex justify-center relative -mb-px z-20">
         <div className="relative">
           <button
             onClick={() => setShowMenuTipo(!showMenuTipo)}
-            className="bg-sky-700 text-white px-8 py-2.5 flex items-center gap-2 text-xs font-bold tracking-wider uppercase rounded-t-xl shadow-sm min-w-[180px] justify-center transition-all hover:bg-sky-800"
-          >
+            className="bg-sky-700 text-white px-8 py-2.5 flex items-center gap-2 text-xs font-bold tracking-wider uppercase rounded-t-xl shadow-sm min-w-[180px] justify-center transition-all hover:bg-sky-800">
             {tipoViagem === 'ida-volta' ? 'Ida e Volta' : 'Apenas Ida'}
             <ChevronDown size={14} className={`transition-transform duration-300 ${showMenuTipo ? 'rotate-180' : ''}`} />
           </button>
@@ -158,41 +103,23 @@ const TravelCard = () => {
         <div className="flex flex-col lg:flex-row items-center lg:flex-[2.2] w-full gap-6 lg:gap-0">
           <div className="flex items-center gap-3 group w-full -mb-2 rounded-lg border border-black-300 p-3 md:border-none flex-1 justify-center md:mb-0 lg:justify-start lg:pl-8">
             <MapPin size={20} className="text-gray-400 group-hover:text-sky-600" />
-            <input
-              type="text"
-              placeholder="Origem"
-              value={origem}
-              onChange={(e) => setOrigem(e.target.value)}
-              className="bg-transparent border-none outline-none text-gray-700 font-medium text-lg placeholder-gray-400 w-full max-w-[150px] focus:ring-0 group-hover:text-sky-600 text-center lg:text-left"
-            />
+            <input type="text" placeholder="Origem" value={origem} onChange={(e) => setOrigem(e.target.value)} className="bg-transparent border-none outline-none text-gray-700 font-medium text-lg placeholder-gray-400 w-full max-w-[150px] focus:ring-0 group-hover:text-sky-600 text-center lg:text-left" />
           </div>
 
-          <button
-            onClick={handleInvert}
-            className="-mb-2 active:scale-90 transition-all rotate-90 lg:rotate-0 lg:mb-0 lg:-ml-6 lg:mr-2"
-          >
+          <button onClick={handleInvert} className="-mb-2 active:scale-90 transition-all rotate-90 lg:rotate-0 lg:mb-0 lg:-ml-6 lg:mr-2">
             <Repeat size={20} className="text-gray-400 group-hover:text-sky-600 group-hover:rotate-180 transition-transform duration-500" />
           </button>
 
           <div className="flex items-center gap-3 group w-full rounded-lg border border-black-300 -mb-2 p-3 md:border-none lg:flex-1 justify-center lg:mb-0 lg:justify-start">
             <MapPin size={20} className="text-gray-400 group-hover:text-sky-600" />
-            <input
-              type="text"
-              placeholder="Destino"
-              value={destino}
-              onChange={(e) => setDestino(e.target.value)}
-              className="bg-transparent border-none outline-none text-gray-700 font-medium text-lg placeholder-gray-400 w-full max-w-[150px] focus:ring-0 group-hover:text-sky-600 text-center lg:text-left"
-            />
+            <input type="text" placeholder="Destino" value={destino} onChange={(e) => setDestino(e.target.value)} className="bg-transparent border-none outline-none text-gray-700 font-medium text-lg placeholder-gray-400 w-full max-w-[150px] focus:ring-0 group-hover:text-sky-600 text-center lg:text-left" />
           </div>
         </div>
 
         <div className="hidden lg:block w-[1px] h-8 bg-gray-200 mx-2"></div>
 
         <div className={`flex flex-col sm:flex-row items-center gap-8 lg:gap-4 w-full lg:w-auto ${tipoViagem === 'ida-volta' ? 'lg:flex-[2.8]' : 'lg:flex-[1.8]'} justify-around`}>
-          <div
-            className="relative flex items-center justify-center -mb-2 gap-3 group w-full rounded-lg border border-black-300 cursor-pointer h-13 lg:mb-0 md:justify-start md:w-auto md:rounded-none md:border-none"
-            onClick={() => idaRef.current?.showPicker()}
-          >
+          <div className="relative flex items-center justify-center -mb-2 gap-3 group w-full rounded-lg border border-black-300 cursor-pointer h-13 lg:mb-0 md:justify-start md:w-auto md:rounded-none md:border-none" onClick={() => idaRef.current?.showPicker()}>
             <Calendar size={20} className="text-gray-400 group-hover:text-sky-600" />
             <div className="flex flex-col items-center">
               <span className={`font-medium text-base transition-all duration-300 group-hover:text-sky-600 ${dataIda ? 'leading-none text-gray-800' : 'text-gray-600'}`}>
@@ -206,10 +133,7 @@ const TravelCard = () => {
           </div>
 
           {tipoViagem === 'ida-volta' && (
-            <div
-              className="relative flex items-center justify-center -mb-4 gap-3 group w-full rounded-lg border border-black-300 p-2 cursor-pointer h-13 lg:mb-0 md:justify-start md:w-auto md:rounded-none md:border-none md:p-0"
-              onClick={() => voltaRef.current?.showPicker()}
-            >
+            <div className="relative flex items-center justify-center -mb-4 gap-3 group w-full rounded-lg border border-black-300 p-2 cursor-pointer h-13 lg:mb-0 md:justify-start md:w-auto md:rounded-none md:border-none md:p-0" onClick={() => voltaRef.current?.showPicker()}>
               <Calendar size={20} className="text-gray-400 group-hover:text-sky-600" />
               <div className="flex flex-col items-center">
                 <span className={`font-medium text-base transition-all duration-300 group-hover:text-sky-600 ${dataVolta ? 'leading-none text-gray-800' : 'text-gray-600'}`}>
@@ -243,10 +167,7 @@ const TravelCard = () => {
         </div>
 
         <div className="w-full lg:w-auto flex justify-center lg:pr-2">
-          <button
-            onClick={handleSearch}
-            className="bg-sky-700 hover:bg-sky-800 w-full transition-all p-4 ml-4 rounded-full text-white lg:w-auto shadow-lg active:scale-95 flex items-center justify-center"
-          >
+          <button onClick={handleSearch} className="bg-sky-700 hover:bg-sky-800 w-full transition-all p-4 ml-4 rounded-full text-white lg:w-auto shadow-lg active:scale-95 flex items-center justify-center">
             <Search size={22} strokeWidth={2.5} />
             <span className="ml-2 md:hidden">Buscar</span>
           </button>

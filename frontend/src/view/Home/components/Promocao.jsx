@@ -1,14 +1,8 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import { useNavigate } from "react-router-dom";
-<<<<<<< HEAD
-import { defaultSearchState } from "../defaultSearchState";
-=======
 import { useScrollSearch } from '../../../context/ScrollSearchContext.jsx';
->>>>>>> fluxo-compra
 
-// Import dos estilos do Swiper
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -22,15 +16,6 @@ const Promocoes = () => {
     { id: 4, destino: "Manaus para Anori", img: "/anori.jpg", desconto: "25% OFF", de: "R$ 400", por: "R$ 300" },
   ];
 
-const navigate = useNavigate();
-
-<<<<<<< HEAD
-const handleClick = () => {
-  navigate("/resultados", { state: defaultSearchState });
-}
-
-=======
->>>>>>> fluxo-compra
   return (
     <section onClick={scrollToSearch} id="promocoes" className="py-20 text-white overflow-hidden bg-transparent">
   
@@ -67,14 +52,7 @@ const handleClick = () => {
           {dadosPromo.map((promo) => (
             <SwiperSlide key={promo.id}>
               
-<<<<<<< HEAD
-              <div className={`relative group overflow-hidden h-72 w-full shadow-lg border border-white/10 bg-transparent cursor-pointer rounded-2xl
-              ${promo.id === 2 ? "cursor-pointer" : "cursor-default"}`}
-              onClick={(e) => {e.stopPropagation();
-                if (promo.id === 2) handleClick();}}>
-=======
               <div className="relative group overflow-hidden h-72 w-full shadow-lg border border-white/10 bg-transparent cursor-pointer rounded-2xl">
->>>>>>> fluxo-compra
                 
                 <img 
                   src={promo.img} 

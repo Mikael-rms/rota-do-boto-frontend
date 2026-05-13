@@ -8,8 +8,7 @@ function ViagemPrincipal( { titulo, descricao, preco, imagem, rota, state } ) {
       <img 
         src={imagem} 
         className="absolute inset-0 object-cover w-full h-full transition-transform duration-500 group-hover:scale-110" 
-        alt={titulo}
-      />
+        alt={titulo}/>
 
       <div className="absolute bottom-0 left-0 w-3/4 bg-white/90 p-4">
             <h4 className="font-bold text-gray-800 text-lg">{titulo}</h4>
@@ -24,9 +23,6 @@ function ViagemPrincipal( { titulo, descricao, preco, imagem, rota, state } ) {
         </svg>
       </div>
         </Link>
-        
-        
-        
     </div>
     )
 } 

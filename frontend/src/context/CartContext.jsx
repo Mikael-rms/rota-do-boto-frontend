@@ -1,38 +1,25 @@
-<<<<<<< HEAD
-/* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useState } from "react";
-=======
-import { createContext, useContext, useState, useEffect } from "react";
->>>>>>> fluxo-compra
+import { createContext, useContext, useEffect, useState } from "react";
 
 const CartContext = createContext();
 
 const defaultCart = {
   tripId: "",
   date: "",
+  dataPartida: "",
   seats: [],
   price: 0,
   total: 0,
   orderId: "",
   nome: "",
+  imagem: "",
   origem: "",
   destino: "",
+  tempo: "",
+  passageiros: 0,
   expiresAt: null,
   duration: 0,
 };
 
-<<<<<<< HEAD
-  const [cart, setCart] = useState({
-    tripId: "",
-    date: "",
-    seats: [],
-    price: 0,
-    total: 0,
-    orderId: "",
-    nome: "",
-    origem: "",
-    destino: "",
-=======
 const isExpired = (expiresAt) => {
   return !expiresAt || Number(expiresAt) < Date.now();
 };
@@ -43,18 +30,23 @@ export function CartProvider({ children }) {
 
     if (!savedCart) return defaultCart;
 
-    const parsed = JSON.parse(savedCart);
+    try {
+      const parsed = JSON.parse(savedCart);
 
-    if (isExpired(parsed.expiresAt)) {
+      if (isExpired(parsed.expiresAt)) {
+        localStorage.removeItem("cart");
+        return defaultCart;
+      }
+
+      return {
+        ...defaultCart,
+        ...parsed,
+        expiresAt: Number(parsed.expiresAt),
+      };
+    } catch {
       localStorage.removeItem("cart");
       return defaultCart;
     }
-
-    return {
-      ...parsed,
-      expiresAt: Number(parsed.expiresAt),
-    };
->>>>>>> fluxo-compra
   });
 
   useEffect(() => {
@@ -62,38 +54,31 @@ export function CartProvider({ children }) {
   }, [cart]);
 
   const addToCart = (data) => {
+    const seats = data.seats || [];
+    const price = data.price || 0;
+
     setCart({
-      tripId: data.tripId,
-      date: data.date,
-      seats: data.seats,
-      price: data.price,
-      total: data.total,
-      orderId: data.orderId,
-      nome: data.nome,
-      origem: data.origem,
-      destino: data.destino,
+      tripId: data.tripId || "",
+      date: data.date || "",
+      dataPartida: data.dataPartida || "",
+      seats,
+      price,
+      total: data.total ?? price * seats.length,
+      orderId: data.orderId || "",
+      nome: data.nome || "",
+      imagem: data.imagem || "",
+      origem: data.origem || "",
+      destino: data.destino || "",
+      tempo: data.tempo || "",
+      passageiros: data.passageiros || seats.length,
       expiresAt: Number(data.expiresAt),
-      duration: data.duration,
+      duration: data.duration || 0,
     });
   };
 
   const clearCart = () => {
-<<<<<<< HEAD
-    setCart({
-      tripId: "",
-      date: "",
-      seats: [],
-      price: 0,
-      total: 0,
-      orderId: "",
-      nome: "",
-      origem: "",
-      destino: "",
-    });
-=======
     localStorage.removeItem("cart");
     setCart(defaultCart);
->>>>>>> fluxo-compra
   };
 
   return (
