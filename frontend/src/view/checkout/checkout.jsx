@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "../../context/CartContext";
+import { useCart } from "../../context/useCart.js";
+
 import { useAuth } from "../../context/AuthContext";
 import { QRCodeCanvas } from "qrcode.react";
 
@@ -23,18 +24,17 @@ function Checkout() {
     try {
       await new Promise((resolve) => setTimeout(resolve, 2500));
 
-      const response = await fetch(
-        "https://rota-do-boto-backend.onrender.com/confirm",
-        {
+      const response = await fetch("https://rota-do-boto-backend.onrender.com/confirm", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json" 
+          },
           body: JSON.stringify({
             order_id: cart.orderId,
             trip_id: cart.tripId,
             date: cart.date,
           }),
-        }
-      );
+        });
 
       const data = await response.json();
 

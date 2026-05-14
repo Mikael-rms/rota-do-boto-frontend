@@ -1,6 +1,3 @@
-import { Link, useNavigate } from "react-router-dom";
-
-import TravelSearchCard from './components/TravelSearchCard.jsx'
 import CardEmAlta from './components/CardEmAlta.jsx'
 import CardViagem from './components/CardViagem.jsx'
 import Recepcao from './components/Recepcao.jsx';

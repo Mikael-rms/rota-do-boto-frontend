@@ -1,176 +1,128 @@
-import { useState, useEffect } from "react";
-import { useCart } from "../../context/CartContext";
-import { useAuth } from "../../context/AuthContext";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { useCart } from "../../context/useCart";
+
 function Carrinho() {
-  const { user } = useAuth();
   const navigate = useNavigate();
   const { cart, clearCart } = useCart();
-  const [loading, setLoading] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(0);
 
-  const total =
-    (cart.price || 0) * (cart.seats?.length || 0);
-
-  const [timeLeft, setTimeLeft] = useState(
-        (cart.duration || 0) * 1000
-      );
+  const total = cart.total || (cart.price || 0) * (cart.seats?.length || 0);
   const minutes = Math.floor(timeLeft / 60000);
   const seconds = Math.floor((timeLeft % 60000) / 1000);
 
-useEffect(() => {
-  if (timeLeft <= 0) return;
+  useEffect(() => {
+    if (!cart.expiresAt) return;
 
-  const interval = setInterval(() => {
-    setTimeLeft((prev) => {
-      if (prev <= 1000) {
-        clearInterval(interval);
+    const updateTimeLeft = () => {
+      const diff = Math.max(Number(cart.expiresAt) - Date.now(), 0);
+      setTimeLeft(diff);
 
-        alert("Sua reserva expirou");
-
+      if (diff <= 0) {
         clearCart();
-
         navigate("/");
-
-        return 0;
       }
+    };
 
-      return prev - 1000;
-    });
-  }, 1000);
+    updateTimeLeft();
 
-  return () => clearInterval(interval);
+    const interval = setInterval(updateTimeLeft, 1000);
 
-}, []);
+    return () => clearInterval(interval);
+  }, [cart.expiresAt, clearCart, navigate]);
+
+  const resumoItems = [
+    { label: "Rota", value: `${cart.origem} -> ${cart.destino}` },
+    { label: "Lancha", value: cart.nome },
+    { label: "Partida", value: cart.dataPartida || cart.date },
+    { label: "Tempo de viagem", value: cart.tempo },
+    { label: "Passageiros", value: cart.passageiros },
+    { label: "Assentos", value: cart.seats?.join(", ") },
+    { label: "Valor Passagem", value: `R$ ${(cart.price || 0).toFixed(2)}` },
+    { label: "Codigo da reserva", value: cart.orderId },
+  ];
 
   return (
     <section className="w-full min-h-screen bg-gray-100 py-6 md:py-10">
-
       <div className="max-w-6xl mx-auto px-4 sm:px-6 font-sans">
-
         <div className="border border-gray-300 rounded-[30px] md:rounded-[40px] p-6 md:p-10 shadow-sm bg-white w-full">
-
           {!cart.seats || cart.seats.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 text-center">
-
               <p className="text-lg text-gray-500 mb-4">
-                Seu carrinho está vazio
+                Seu carrinho esta vazio
               </p>
-
               <p className="text-sm text-gray-400">
                 Escolha seus assentos para continuar
               </p>
-
             </div>
           ) : (
             <>
-              {/* DETALHES */}
               <div className="mb-8">
                 <h2 className="text-2xl font-semibold mb-6">
-                  Resumo da compra
+                  Resumo geral do pedido
                 </h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6">
+                  {cart.imagem && (
+                    <div className="w-full h-48 bg-gray-100 rounded-2xl overflow-hidden">
+                      <img
+                        src={cart.imagem}
+                        alt={cart.nome}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
 
-                  <div>
-                      <p className="text-xs font-bold text-gray-500 uppercase mb-2 ml-1">
-                        Rota
-                      </p>
-
-                      <div className="bg-gray-100 rounded-xl px-4 py-3">
-                        {cart.origem} → {cart.destino}
-                      </div>
-                  </div>
-
-                  <div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {resumoItems.map((item) => (
+                      <div key={item.label}>
                         <p className="text-xs font-bold text-gray-500 uppercase mb-2 ml-1">
-                          Lancha
+                          {item.label}
                         </p>
-                        <div className="bg-gray-100 rounded-xl px-4 py-3">
-                          {cart.nome}
+                        <div className="bg-gray-100 rounded-xl px-4 py-3 min-h-12">
+                          {item.value || "-"}
                         </div>
+                      </div>
+                    ))}
                   </div>
-
-                  <div>
-                    <p className="text-xs font-bold text-gray-500 uppercase mb-2 ml-1">
-                      Assentos
-                    </p>
-
-                    <div className="bg-gray-100 rounded-xl px-4 py-3">
-                      {cart.seats.join(", ")}
-                    </div>
-                  </div>
-
-                  <div>
-                    <p className="text-xs font-bold text-gray-500 uppercase mb-2 ml-1">
-                      Data
-                    </p>
-
-                    <div className="bg-gray-100 rounded-xl px-4 py-3">
-                      {cart.date}
-                    </div>
-                  </div>
-
-                  <div>
-                    <p className="text-xs font-bold text-gray-500 uppercase mb-2 ml-1">
-                      Valor da passagem
-                    </p>
-
-                    <div className="bg-gray-100 rounded-xl px-4 py-3">
-                      R$ {(cart.price || 0).toFixed(2)}
-                    </div>
-                  </div>
-
                 </div>
               </div>
 
-              <hr className="border-gray-300 mb-8" />
+              {cart.expiresAt && (
+                <div className="bg-yellow-100 border border-yellow-300 text-yellow-800 rounded-xl p-4 mb-6 text-center">
+                  Sua reserva expira em:
+                  <span className="font-bold ml-2">
+                    {String(minutes).padStart(2, "0")}:
+                    {String(seconds).padStart(2, "0")}
+                  </span>
+                </div>
+              )}
 
-              <div className="bg-yellow-100 border border-yellow-300 text-yellow-800 rounded-xl p-4 mb-6 text-center">
-                Sua reserva expira em:
-                <span className="font-bold ml-2">
-                  {String(minutes).padStart(2, "0")}:
-                  {String(seconds).padStart(2, "0")}
-                </span>
-              </div>
-
-              {/* TOTAL */}
-              <div className="flex justify-between items-center mb-10">
-
-                <span className="text-lg font-medium text-gray-700">
-                  Total
-                </span>
-
+              <div className="flex justify-between items-center mb-10 border-t border-gray-200 pt-6">
+                <span className="text-lg font-medium text-gray-700">Total</span>
                 <span className="text-2xl font-bold text-green-700">
                   R$ {total.toFixed(2)}
                 </span>
-
               </div>
 
-              {/* AÇÕES */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-
                 <button
                   onClick={clearCart}
-                  className="w-full sm:w-60 bg-red-500 text-white font-semibold py-3 rounded-xl shadow-md hover:brightness-95 transition-all"
+                  className="w-full sm:w-60 bg-red-500 text-white font-semibold py-3 rounded-xl"
                 >
                   Limpar carrinho
                 </button>
 
                 <button
                   onClick={() => navigate("/checkout")}
-                  disabled={loading}
-                  className="w-full sm:w-60 bg-[#61EE9D] text-black font-semibold py-3 rounded-xl shadow-md hover:brightness-95 transition-all disabled:opacity-50"
+                  className="w-full sm:w-60 bg-[#61EE9D] text-black font-semibold py-3 rounded-xl"
                 >
-                  {loading
-                    ? "Processando..."
-                    : "Finalizar compra"}
+                  Finalizar compra
                 </button>
-
               </div>
             </>
           )}
-
         </div>
       </div>
     </section>

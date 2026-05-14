@@ -1,148 +1,90 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Ticket } from "lucide-react";
 import { useAuth } from "../../../context/AuthContext";
+import ResumoModal from "./ResumoModal";
 
-function Historico() {
+function Historico({ orders, loading }) {
   const { user } = useAuth();
+  const [orderSelecionado, setOrderSelecionado] = useState(null);
 
-  const [orders, setOrders] = useState([]);
-
-useEffect(() => {
-  const fetchOrders = async () => {
-    if (!user) return;
-
-    try {
-      const response = await fetch(
-        `https://rota-do-boto-backend.onrender.com/orders/${user.uid}`
-      );
-
-      const data = await response.json();
-
-      setOrders(data);
-
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  fetchOrders();
-
-}, [user]);
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-24 gap-3">
+        <div className="w-8 h-8 border-[3px] border-[#009EE3] border-t-transparent rounded-full animate-spin" />
+        <p className="text-sm text-gray-400">Carregando pedidos...</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="w-full min-h-screen bg-gray-100 p-4 sm:p-6">
-      <div className="max-w-6xl mx-auto">
+    <>
+      {orderSelecionado && (
+        <ResumoModal
+          order={orderSelecionado}
+          onClose={() => setOrderSelecionado(null)}
+        />
+      )}
 
-        <h1 className="text-4xl font-bold text-center text-green-800 mb-6">
-          Pedidos
-        </h1>
+      <div className="py-8 px-4 sm:px-8 animate-in slide-in-from-bottom-4 duration-500">
+        {orders.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-24 gap-3">
+            <div className="w-16 h-16 rounded-2xl flex items-center justify-center">
+              <Ticket size={32} className="text-gray-300" />
+            </div>
+            <p className="text-gray-400 text-sm">Você ainda não possui pedidos realizados.</p>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-4">
+            {orders.map((order) => (
+              <div
+                key={order.id}
+                className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200"
+              >
+                <div className="h-1 w-full bg-[#009EE3]" />
 
-       {orders.length === 0 ? (
-      <p className="text-center text-gray-500">
-        Você ainda não fez nenhum pedido
-      </p>
-    ) : (
-      orders.map((order) => (
-        <div
-          key={order.id}
-          className="bg-white border border-gray-200 rounded-2xl p-4 sm:p-6 shadow-sm"
-        >
+                <div className="p-5 sm:p-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
+                    <div className="flex items-center gap-3">
+                      <p className="text-xs text-gray-400 hidden sm:block">{user?.email}</p>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-50 text-[#009EE3] border border-sky-100">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#009EE3] inline-block" />
+                        {order.status === "paid" ? "Confirmado" : order.status}
+                      </span>
+                    </div>
+                  </div>
 
-      {/* HEADER */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4 border-b pb-4">
+                  <div className="flex items-center gap-3 mb-5 p-4 bg-sky-50 rounded-xl">
+                    <div className="text-center">
+                      <p className="text-[10px] text-sky-400 uppercase font-bold mb-0.5">Origem</p>
+                      <p className="text-base font-bold text-sky-700">{order.origem}</p>
+                    </div>
+                    <div className="flex-1 flex items-center gap-1">
+                      <div className="flex-1 h-px bg-sky-200" />
+                      <div className="w-2 h-2 rounded-full bg-[#009EE3]" />
+                      <div className="flex-1 h-px bg-sky-200" />
+                    </div>
+                    <div className="text-center">
+                      <p className="text-[10px] text-sky-400 uppercase font-bold mb-0.5">Destino</p>
+                      <p className="text-base font-bold text-sky-700">{order.destino}</p>
+                    </div>
+                  </div>
 
-        <div className="flex flex-col sm:flex-row sm:gap-6">
-          <p className="text-[#00695c] font-bold text-lg sm:text-xl">
-            Código: <span className="font-mono">{order.id}</span>
-          </p>
-
-          <p className="text-[#00695c] font-bold text-lg sm:text-xl">
-            Nome: <span className="text-gray-500 font-normal italic">
-              {user?.email}
-            </span>
-          </p>
-        </div>
-
-        <span className="text-[#00695c] font-black text-lg sm:text-xl uppercase">
-          {order.status || "confirmado"}
-        </span>
+                  <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                    <button
+                      onClick={() => setOrderSelecionado(order)}
+                      className="bg-[#009EE3] hover:brightness-95 active:scale-95 transition text-white text-xs font-semibold px-5 py-2.5 rounded-xl"
+                    >
+                      Ver resumo
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
-
-      {/* INFO */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center mb-6">
-
-        <div>
-          <p className="text-gray-400 text-xs font-bold uppercase mb-1">Origem</p>
-          <p className="font-extrabold text-[#00796b] text-lg">
-            {order.origem}
-          </p>
-        </div>
-
-        <div>
-          <p className="text-gray-400 text-xs font-bold uppercase mb-1">Destino</p>
-          <p className="font-extrabold text-[#00796b] text-lg">
-            {order.destino}
-          </p>
-        </div>
-
-        <div>
-          <p className="text-gray-400 text-xs font-bold uppercase mb-1">Duração</p>
-          <p className="font-extrabold text-[#00796b] text-lg">
-            {order.duracao || "--"}
-          </p>
-        </div>
-
-        <div>
-          <p className="text-gray-400 text-xs font-bold uppercase mb-1">Partida</p>
-          <p className="font-extrabold text-[#00796b] text-lg">
-            {order.horario || "--"}
-          </p>
-        </div>
-      </div>
-
-      {/* DETALHES */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 items-end text-center">
-
-        <div>
-          <p className="text-gray-400 text-xs font-bold uppercase mb-1">
-            Valor
-          </p>
-          <p className="font-extrabold text-[#00796b] text-sm sm:text-base">
-            R$ {((order.price || 0) * (order.seats?.length || 0)).toFixed(2)} 
-          </p>
-        </div>
-
-        <div>
-          <p className="text-gray-400 text-xs font-bold uppercase mb-1">
-            Embarcação
-          </p>
-          <p className="font-extrabold text-[#00796b] text-sm sm:text-base">
-            {order.trip_id}
-          </p>
-        </div>
-
-        <div>
-          <p className="text-gray-400 text-xs font-bold uppercase mb-1">
-            Assentos
-          </p>
-          <p className="font-extrabold text-[#00796b] text-sm sm:text-base">
-            {order.seats?.join(", ")}
-          </p>
-        </div>
-
-        <div className="flex justify-center">
-          <button className="w-full sm:w-auto bg-[#56e39f] hover:bg-[#45cc8b] text-[#004d40] font-bold py-2 px-4 rounded-lg shadow-md transition-all hover:scale-105 text-xs uppercase">
-            Ver resumo
-          </button>
-        </div>
-
-      </div>
-
-    </div>
-  ))
-)}
-      </div>
-    </div>
-  )
+    </>
+  );
 }
 
-export default Historico
+export default Historico;

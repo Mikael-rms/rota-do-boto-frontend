@@ -1,10 +1,8 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import { useNavigate } from "react-router-dom";
 import { useScrollSearch } from '../../../context/ScrollSearchContext.jsx';
 
-// Import dos estilos do Swiper
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -17,8 +15,6 @@ const Promocoes = () => {
     { id: 3, destino: "Tefé para Manaus", img: "/manaus3.jpg", desconto: "10% OFF", de: "R$ 290", por: "R$ 261" },
     { id: 4, destino: "Manaus para Anori", img: "/anori.jpg", desconto: "25% OFF", de: "R$ 400", por: "R$ 300" },
   ];
-
-const navigate = useNavigate();
 
   return (
     <section onClick={scrollToSearch} id="promocoes" className="py-20 text-white overflow-hidden bg-transparent">

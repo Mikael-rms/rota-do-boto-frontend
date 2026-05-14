@@ -1,85 +1,91 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import { MdNoMeals } from "react-icons/md";
+import { createContext, useEffect, useState } from "react";
 
 const CartContext = createContext();
+
+const defaultCart = {
+  tripId: "",
+  date: "",
+  dataPartida: "",
+  seats: [],
+  price: 0,
+  total: 0,
+  orderId: "",
+  nome: "",
+  imagem: "",
+  origem: "",
+  destino: "",
+  tempo: "",
+  passageiros: 0,
+  expiresAt: null,
+  duration: 0,
+};
+
+const isExpired = (expiresAt) => {
+  return !expiresAt || Number(expiresAt) < Date.now();
+};
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState(() => {
     const savedCart = localStorage.getItem("cart");
 
-    if (savedCart) {
-      return JSON.parse(savedCart);
-    }
+    if (!savedCart) return defaultCart;
 
-    return {
-      tripId: "",
-      date: "",
-      seats: [],
-      price: 0,
-      total: 0,
-      orderId: "",
-      nome: "",
-      origem: "",
-      destino: "",
-      expiresAt: null,
-      duration: 0,
-    };
+    try {
+      const parsed = JSON.parse(savedCart);
+
+      if (isExpired(parsed.expiresAt)) {
+        localStorage.removeItem("cart");
+        return defaultCart;
+      }
+
+      return {
+        ...defaultCart,
+        ...parsed,
+        expiresAt: Number(parsed.expiresAt),
+      };
+    } catch {
+      localStorage.removeItem("cart");
+      return defaultCart;
+    }
   });
 
   useEffect(() => {
-    localStorage.setItem(
-      "cart",
-      JSON.stringify(cart)
-    );
+    localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
   const addToCart = (data) => {
+    const seats = data.seats || [];
+    const price = data.price || 0;
+
     setCart({
-      tripId: data.tripId,
-      date: data.date,
-      seats: data.seats,
-      price: data.price,
-      total: data.total,
-      orderId: data.orderId,
-      nome: data.nome,
-      origem: data.origem,
-      destino: data.destino,
-      expiresAt: data.expiresAt,
-      duration: data.duration,
+      tripId: data.tripId || "",
+      date: data.date || "",
+      dataPartida: data.dataPartida || "",
+      seats,
+      price,
+      total: data.total ?? price * seats.length,
+      orderId: data.orderId || "",
+      nome: data.nome || "",
+      imagem: data.imagem || "",
+      origem: data.origem || "",
+      destino: data.destino || "",
+      tempo: data.tempo || "",
+      passageiros: data.passageiros || seats.length,
+      expiresAt: Number(data.expiresAt),
+      duration: data.duration || 0,
     });
   };
 
   const clearCart = () => {
     localStorage.removeItem("cart");
-
-    setCart({
-      tripId: "",
-      date: "",
-      seats: [],
-      price: 0,
-      total: 0,
-      orderId: "",
-      nome: "",
-      origem: "",
-      destino: "",
-      expiresAt: null,
-      duration: 0,
-    });
+    setCart(defaultCart);
   };
 
   return (
-    <CartContext.Provider
-      value={{
-        cart,
-        addToCart,
-        clearCart,
-      }}
-    >
+    <CartContext.Provider value={{ cart, addToCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );
 }
 
-export function useCart() {
-  return useContext(CartContext);
-}
+export default CartContext;

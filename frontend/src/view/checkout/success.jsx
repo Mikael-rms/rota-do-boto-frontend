@@ -1,19 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Success() {
   const navigate = useNavigate();
-  const [show, setShow] = useState(false);
+  const show = true;
 
   useEffect(() => {
-    setShow(true);
-
     const timer = setTimeout(() => {
-      navigate("/");
+      navigate("/perfil", { state: { aba: "pedidos" } }); 
     }, 2500);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [navigate]);
 
   return (
     <section className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#e8f7ef] to-[#f7f7f7]">
@@ -34,7 +32,6 @@ function Success() {
           </div>
         </div>
 
-        {/* TEXTO */}
         <h1 className="text-2xl font-bold text-gray-800 mb-2">
           Pagamento aprovado
         </h1>
@@ -53,7 +50,7 @@ function Success() {
         </p>
       </div>
 
-      {/* ANIMAÇÃO CSS INLINE (tailwind não tem keyframe padrão) */}
+      {/* ANIMAÇÃO CSS INLINE */}
       <style>
         {`
           @keyframes loading {
