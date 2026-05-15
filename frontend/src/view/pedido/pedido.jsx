@@ -8,6 +8,12 @@ import { db } from "../../firebaseConfig";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
+const formatarData = (dataIso) => {
+  if (!dataIso) return "-";
+  const [ano, mes, dia] = dataIso.split('-');
+  return `${dia}/${mes}/${ano}`;
+};
+
 function Pedido() {
   const { user } = useAuth();
   const location = useLocation();
@@ -26,7 +32,6 @@ function Pedido() {
   const destino = viagem?.destino;
   const nome = viagem?.nome;
   const tempo = viagem?.tempo;
-  const dataPartida = viagem?.data;
   const imagem = viagem?.imagem;
   const passageiros = viagem?.passageiros || 1;
   const date = viagem?.date;
@@ -153,7 +158,6 @@ function Pedido() {
           destino,
           nome,
           tempo,
-          dataPartida, 
         }),
       });
 
@@ -174,7 +178,6 @@ function Pedido() {
         tempo,
         passageiros,
         date,
-        dataPartida,
         seats: selectedSeatCodes,
         expiresAt: Number(data.expires_at),
         price,
@@ -235,7 +238,7 @@ function Pedido() {
             <div>
               <p className="text-gray-600 text-xs">PARTIDA</p>
               <p className="text-sky-600 text-lg font-semibold">
-                {dataPartida}
+                {formatarData(date)}
               </p>
             </div>
 
