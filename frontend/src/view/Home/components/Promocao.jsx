@@ -32,7 +32,7 @@ const Promocoes = () => {
       <div className="container mx-auto px-6">
         
         <div className="mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold italic drop-shadow-lg">
+          <h2 className="text-3xl md:text-4xl font-bold italic drop-shadow-lg" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700 }}>
             Promoções <span className="text-sky-600 drop-shadow-[0_2px_2px_rgba(0,0,0,0.6)]">Imperdíveis!</span>
           </h2>
         </div>
@@ -45,14 +45,14 @@ const Promocoes = () => {
           pagination={{ clickable: true }}
           autoplay={{ delay: 5000 }}
           breakpoints={{
-            640: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
+            640: { slidesPerView: 2, spaceBetween: 32 },
+            1024: { slidesPerView: 3, spaceBetween: 24 },
           }}
           className="pb-12">
           {dadosPromo.map((promo) => (
             <SwiperSlide key={promo.id}>
               
-              <div className="relative group overflow-hidden h-72 w-full shadow-lg border border-white/10 bg-transparent cursor-pointer rounded-2xl">
+              <div className="relative group overflow-hidden h-44 sm:h-52 md:h-56 lg:h-48 xl:h-50 w-full shadow-lg border border-white/10 bg-transparent cursor-pointer rounded-2xl">
                 
                 <img 
                   src={promo.img} 
@@ -67,7 +67,7 @@ const Promocoes = () => {
                 </div>
 
                 <div className="absolute inset-0 flex flex-col justify-end p-6">
-                  <h3 className="text-white text-2xl font-bold italic drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] transition-transform duration-500 group-hover:-translate-y-2">
+                  <h3 className="text-white text-2xl font-bold italic drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] transition-transform duration-500 group-hover:-translate-y-2" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700 }}>
                     {promo.destino}
                   </h3>
                   
