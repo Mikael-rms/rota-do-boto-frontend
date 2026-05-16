@@ -52,8 +52,8 @@ const Promocoes = () => {
           {dadosPromo.map((promo) => (
             <SwiperSlide key={promo.id}>
               
-              <div className="h-44 sm:h-52 md:h-56 lg:h-48 xl:h-50 flex items-center">
-                <div className="relative group overflow-hidden h-72 w-full shadow-lg border border-white/10 bg-transparent cursor-pointer rounded-2xl mx-auto transform scale-75 sm:scale-90 md:scale-95 lg:scale-100 transition-transform duration-300">
+              <div className="h-44 sm:h-52 md:h-56 lg:h-48 xl:h-50 flex items-center overflow-visible">
+                <div className="relative group overflow-visible h-72 w-full shadow-lg border border-white/10 bg-transparent cursor-pointer rounded-2xl mx-auto transition-transform duration-300">
                   
                   <img 
                     src={promo.img} 
